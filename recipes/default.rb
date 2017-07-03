@@ -20,21 +20,21 @@ user 'nagios' do
 end
 
 
-#group 'nagcmd' do
-# action :create
-#end
+group 'nagcmd' do
+ action :create
+end
 
-#group 'nagcmd' do
-# members 'nagios'
-# append true
-# action :modify
-#end
+group 'nagcmd' do
+ members 'nagios'
+ append true
+ action :modify
+end
 
 
-#remote_file '/root/Downloads/nagios-4.3.2.tar.gz' do
-# source 'https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.3.2.tar.gz'
-# action :create
-#end
+remote_file '/root/Downloads/nagios-4.3.2.tar.gz' do
+ source 'https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.3.2.tar.gz'
+ action :create
+end
 
 execute 'nagios-4.3.2.tar.gz' do
  command 'tar -zxvf /root/Downloads/nagios-4.3.2.tar.gz'
