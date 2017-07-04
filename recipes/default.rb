@@ -7,9 +7,15 @@
 package "Install Nagios" do
  case node[:platform]
  when 'redhat', 'centos'
+<<<<<<< HEAD
    package_name %w(httpd gcc glibc glibc-common gd gd-devel make net-snmp openssl-devel xinetd unzip)
  when 'ubuntu', 'debian'
    package_name %w(apache2 build-essential libgd2-xpm-dev openssl libssl-dev xinetd apache2-utils unzip)
+=======
+   package_name %w(gcc glibc glibc-common gd gd-devel make net-snmp openssl-devel xinetd unzip)
+ when 'ubuntu', 'debian'
+   package_name %w(build-essential libgd2-xpm-dev openssl libssl-dev xinetd apache2-utils unzip)
+>>>>>>> 027f50bae8bbd0292fb218a98c0e8aa47995ff8a
  end
  action :install
 end
@@ -20,6 +26,7 @@ user 'nagios' do
 end
 
 
+<<<<<<< HEAD
 #group 'nagcmd' do
 # action :create
 #end
@@ -71,10 +78,19 @@ end
 
 group 'nagcmd' do
  members 'apache'
+=======
+group 'nagcmd' do
+ action :create
+end
+
+group 'nagcmd' do
+ members 'nagios'
+>>>>>>> 027f50bae8bbd0292fb218a98c0e8aa47995ff8a
  append true
  action :modify
 end
 
+<<<<<<< HEAD
 remote_file '/root/Downloads/nagios-plugins-2.2.1.tar.gz' do
  source 'http://nagios-plugins.org/download/nagios-plugins-2.2.1.tar.gz'
  action :create
@@ -134,3 +150,20 @@ execute 'install init' do
  systemctl enable nrpe.service'
 end
 
+=======
+
+remote_file '/root/Downloads/nagios-4.3.2.tar.gz' do
+ source 'https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.3.2.tar.gz'
+ action :create
+end
+
+execute 'nagios-4.3.2.tar.gz' do
+ command 'tar -zxvf /root/Downloads/nagios-4.3.2.tar.gz'
+ cwd '/root/Downloads/'
+# not_if { File.exists?("/file/contained/in/tar/here") }
+end
+
+execute './configure --with-command-group=nagcmd' do
+ command '/root/Downloads/nagios-4.3.2/configure --with-command-group=nagcmd'
+end
+>>>>>>> 027f50bae8bbd0292fb218a98c0e8aa47995ff8a
