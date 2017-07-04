@@ -27,21 +27,21 @@ end
 
 
 <<<<<<< HEAD
-#group 'nagcmd' do
-# action :create
-#end
+group 'nagcmd' do
+ action :create
+end
 
-#group 'nagcmd' do
-# members 'nagios'
-# append true
-# action :modify
-#end
+group 'nagcmd' do
+ members 'nagios'
+ append true
+ action :modify
+end
 
 
-#remote_file '/root/Downloads/nagios-4.3.2.tar.gz' do
-# source 'https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.3.2.tar.gz'
-# action :create
-#end
+remote_file '/root/Downloads/nagios-4.3.2.tar.gz' do
+ source 'https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.3.2.tar.gz'
+ action :create
+end
 
 execute 'nagios-4.3.2.tar.gz' do
  command 'tar -zxvf /root/Downloads/nagios-4.3.2.tar.gz'
@@ -49,10 +49,10 @@ execute 'nagios-4.3.2.tar.gz' do
 # not_if { File.exists?("/file/contained/in/tar/here") }
 end
 
-#execute './configure --with-command-group=nagcmd' do
-# command './configure --with-command-group=nagcmd && make all'
-# cwd '/root/Downloads/nagios-4.3.2/'
-#end
+execute './configure --with-command-group=nagcmd' do
+ command './configure --with-command-group=nagcmd && make all'
+ cwd '/root/Downloads/nagios-4.3.2/'
+end
 
 execute 'sudo make install && sudo make install-commandmode' do
  command 'make install && make install-commandmode'
@@ -64,17 +64,17 @@ execute 'install init' do
  user 'root'
 end
 
-#execute 'config files' do
-# command 'make install-config'
-# user 'root'
-#end
+execute 'config files' do
+ command 'make install-config'
+ user 'root'
+end
 
 ## Needs apache
-#execute 'webconf files' do
-# command 'make install-webconf'
-# cwd '/root/Downloads/nagios-4.3.2/'
-# user 'root'
-#end
+execute 'webconf files' do
+ command 'make install-webconf'
+ cwd '/root/Downloads/nagios-4.3.2/'
+ user 'root'
+end
 
 group 'nagcmd' do
  members 'apache'
@@ -102,10 +102,10 @@ execute 'nagios-plugins-2.2.1.tar.gz' do
  pwd && 
  cd /root/Downloads/nagios-plugins-2.2.1 && 
  pwd &&
-# ./configure --with-nagios-user=nagios --with-nagios-group=nagios --with-openssl &&
+ ./configure --with-nagios-user=nagios --with-nagios-group=nagios --with-openssl &&
  pwd && make && make install'
-# cwd '/root/Downloads/'
-# not_if { File.exists?("/file/contained/in/tar/here") }
+ cwd '/root/Downloads/'
+ not_if { File.exists?("/file/contained/in/tar/here") }
 end
 
 remote_file '/root/Downloads/nrpe-3.1.1.tar.gz' do
@@ -118,7 +118,7 @@ execute 'nrpe-3.1.1.tar.gz' do
  command 'tar -zxvf nrpe-3.1.1.tar.gz &&
  pwd &&
  cd /root/Downloads/nrpe-3.1.1 '
-# ./configure --enable-command-args --with-nagios-user=nagios --with-nagios-group=nagios --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/x86_64-linux-gnu
+ ./configure --enable-command-args --with-nagios-user=nagios --with-nagios-group=nagios --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/x86_64-linux-gnu
 end
 
 execute 'nrpe make and install ' do 
@@ -160,7 +160,7 @@ end
 execute 'nagios-4.3.2.tar.gz' do
  command 'tar -zxvf /root/Downloads/nagios-4.3.2.tar.gz'
  cwd '/root/Downloads/'
-# not_if { File.exists?("/file/contained/in/tar/here") }
+ not_if { File.exists?("/file/contained/in/tar/here") }
 end
 
 execute './configure --with-command-group=nagcmd' do
