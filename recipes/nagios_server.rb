@@ -51,31 +51,31 @@ end
  
 ############################################################################################
 include_recipe 'nagios::nagios_tar' do
- not_if {::File.exists?("/root/Downloads/nagios-4.3.2.tar.gz")}
+ not_if {::File.exists?("/tmp/nagios-4.3.2.tar.gz")}
 end
 
 
 execute './configure --with-command-group=nagcmd' do
  command './configure --with-command-group=nagcmd && make all && make install && make install-commandmode'
- cwd '/root/Downloads/nagios-4.3.2/' 
+ cwd '/tmp/nagios-4.3.2/' 
 end 
 
 execute 'install init' do
  command 'make install-init'
  user 'root' 
- cwd '/root/Downloads/nagios-4.3.2/'
+ cwd '/tmp/nagios-4.3.2/'
 end 
 
 execute 'config files' do
  command 'make install-config'
  user 'root' 
- cwd '/root/Downloads/nagios-4.3.2/'
+ cwd '/tmp/nagios-4.3.2/'
 end
 
 ## Needs apache
 execute 'webconf files' do
  command 'make install-webconf'
- cwd '/root/Downloads/nagios-4.3.2/'
+ cwd '/tmp/nagios-4.3.2/'
  user 'root' 
 end 
 
@@ -92,19 +92,19 @@ end
 #end 
 ##########################################################################
 include_recipe 'nagios::nagios_tar' do
- not_if {::File.exists?("/root/Downloads/nagios-plugins-2.2.1")}
+ not_if {::File.exists?("/tmp/nagios-plugins-2.2.1")}
 end
 
 
 execute 'nagios-plugins-2.2.1.tar.gz' do
- cwd '/root/Downloads/'
+ cwd '/tmp/'
  command 'tar -zxvf nagios-plugins-2.2.1.tar.gz &&
  pwd &&
- cd /root/Downloads/nagios-plugins-2.2.1 &&
+ cd /tmp/nagios-plugins-2.2.1 &&
  pwd &&
  ./configure --with-nagios-user=nagios --with-nagios-group=nagios --with-openssl &&
  pwd && make && make install'
- cwd '/root/Downloads/'
+ cwd '/tmp/'
 # not_if { File.exists?("/file/contained/in/tar/here") }
 end 
 
@@ -123,7 +123,7 @@ end
 #########################################################################################################
 
 execute 'Install' do
- cwd '/root/Downloads/nrpe-3.1.1'
+ cwd '/tmp/nrpe-3.1.1'
  command 'make all && make install'
 end
 
@@ -144,7 +144,7 @@ end
 
 # Install NRPE Config files
 execute 'install config' do
- cwd '/root/Downloads/nrpe-3.1.1'
+ cwd '/tmp/nrpe-3.1.1'
  command 'make install-config'
 end
 
@@ -162,6 +162,6 @@ execute 'nrpe services' do
 end
 
 execute 'install init' do
- command 'make install-init && systemctl enable nrpe.service'
+ command 'make install-init && systemctl enable nrpe.service && systemctl restart nagios && systemctl restart nrpe'
 end
 

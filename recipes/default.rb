@@ -1,1 +1,1 @@
-include_recipe 'nagios::nagios_server_2'
+include_recipe 'nagios::nagios_server'
